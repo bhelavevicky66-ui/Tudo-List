@@ -7,6 +7,8 @@ import { RiAddLine } from "react-icons/ri";
 function AddToDo() {
     const [todo, setTodo] = useState("");
     const { handleAddTodo } = useTodo();
+    const [isHovered, setIsHovered] = useState(false);
+    const [isFocused, setIsFocused] = useState(false);
 
     const handleChange = (e) => {
         setTodo(e.target.value);
@@ -20,21 +22,69 @@ function AddToDo() {
         }
     };
 
+    const styles = {
+        form: {
+            position: "relative",
+            width: "100%",
+            marginBottom: "1.5rem",
+        },
+        input: {
+            width: "100%",
+            padding: "1rem",
+            paddingRight: "4rem",
+            borderRadius: "1rem",
+            border: "none",
+            outline: "none",
+            color: "#1f2937", // gray-800
+            fontSize: "1rem",
+            backgroundColor: "rgba(255, 255, 255, 0.95)",
+            boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)", // shadow-xl
+            transition: "all 150ms",
+            ...(isFocused ? { ring: "4px solid rgba(199, 210, 254, 0.5)" } : {}), // simplistic focus simulation
+        },
+        button: {
+            position: "absolute",
+            right: "0.5rem",
+            top: "0.5rem",
+            bottom: "0.5rem",
+            backgroundColor: isHovered ? "#4338ca" : "#4f46e5", // indigo-700 : indigo-600
+            color: "white",
+            width: "3rem",
+            borderRadius: "0.75rem",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            border: "none",
+            cursor: "pointer",
+            boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+            transition: "all 150ms",
+            transform: isHovered ? "scale(1.05)" : "scale(1)",
+        },
+    };
+
     return (
-        <form onSubmit={handleSubmit} className="relative w-full mb-6">
+        <form onSubmit={handleSubmit} style={styles.form}>
             <input
                 type="text"
                 placeholder="What needs to be accomplished?"
                 value={todo}
                 onChange={handleChange}
-                className="w-full p-4 pr-16 rounded-2xl border-none outline-none text-gray-800 placeholder-gray-400 shadow-xl focus:ring-4 focus:ring-indigo-200/50 bg-white/95 transition-all text-base"
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                style={{
+                    ...styles.input,
+                    // manually simulating ring since it's tailwind specific, using box-shadow instead
+                    boxShadow: isFocused ? "0 0 0 4px rgba(199, 210, 254, 0.5)" : styles.input.boxShadow
+                }}
             />
             <button
                 type="submit"
                 aria-label="Add Todo"
-                className="absolute right-2 top-2 bottom-2 bg-indigo-600 hover:bg-indigo-700 text-white w-12 rounded-xl flex items-center justify-center shadow-md transition-all hover:scale-105 active:scale-95"
+                style={styles.button}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
             >
-                <RiAddLine className="text-2xl font-bold" />
+                <RiAddLine style={{ fontSize: "1.5rem", fontWeight: "bold" }} />
             </button>
         </form>
     );

@@ -3,6 +3,104 @@
 import { useTodo } from "@/store/todo";
 import { useSearchParams } from "next/navigation";
 import { RiDeleteBinLine } from "react-icons/ri";
+import { useState } from "react";
+
+const TodoItem = ({ todo, toggleTodoAsCompleted, handleTodoDelete }) => {
+    const [isHovered, setIsHovered] = useState(false);
+    const [deleteHovered, setDeleteHovered] = useState(false);
+
+    const styles = {
+        li: {
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "1rem",
+            borderRadius: "1rem", // rounded-2xl
+            border: "1px solid",
+            transition: "all 300ms",
+            marginBottom: "0.75rem",
+            boxShadow: isHovered
+                ? "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
+                : "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+            backgroundColor: todo.completed ? "#eef2ff" : "white", // indigo-50
+            borderColor: todo.completed ? "#e0e7ff" : "rgba(255, 255, 255, 0.5)", // indigo-100
+        },
+        contentContainer: {
+            flex: 1,
+            display: "flex",
+            alignItems: "center",
+            gap: "0.75rem",
+            overflow: "hidden",
+        },
+        checkbox: {
+            width: "1.25rem",
+            height: "1.25rem",
+            cursor: "pointer",
+            accentColor: "#4f46e5", // indigo-600
+        },
+        label: {
+            fontSize: "1rem",
+            fontWeight: "500",
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            cursor: "pointer",
+            userSelect: "none",
+            transition: "all 150ms",
+            // Removed line-through based on user request "cut nhi hona chiye"
+            color: todo.completed ? "#a5b4fc" : "#374151", // indigo-300 : gray-700
+        },
+        deleteBtn: {
+            color: "#f43f5e", // rose-500
+            backgroundColor: deleteHovered ? "#ffe4e6" : "transparent", // rose-100
+            padding: "0.5rem",
+            borderRadius: "9999px",
+            transition: "background-color 200ms",
+            border: "none",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+        },
+    };
+
+    return (
+        <li
+            style={styles.li}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+        >
+            <div style={styles.contentContainer}>
+                <input
+                    type="checkbox"
+                    id={`todo-${todo.id}`}
+                    checked={todo.completed}
+                    onChange={() => toggleTodoAsCompleted(todo.id)}
+                    style={styles.checkbox}
+                />
+                <label htmlFor={`todo-${todo.id}`} style={styles.label}>
+                    {todo.task}
+                </label>
+            </div>
+
+            {todo.completed && (
+                <button
+                    type="button"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        handleTodoDelete(todo.id);
+                    }}
+                    style={styles.deleteBtn}
+                    onMouseEnter={() => setDeleteHovered(true)}
+                    onMouseLeave={() => setDeleteHovered(false)}
+                    aria-label="Delete Todo"
+                >
+                    <RiDeleteBinLine style={{ fontSize: "1.25rem" }} />
+                </button>
+            )}
+        </li>
+    );
+};
 
 const Todos = () => {
     const { todos, toggleTodoAsCompleted, handleTodoDelete } = useTodo();
@@ -18,46 +116,14 @@ const Todos = () => {
     }
 
     return (
-        <ul className="w-full space-y-3">
+        <ul style={{ width: "100%", padding: 0, margin: 0, listStyle: "none" }}>
             {filterTodos.map((todo) => (
-                <li
+                <TodoItem
                     key={todo.id}
-                    className={`flex justify-between items-center p-4 rounded-2xl shadow-sm border transition-all duration-300 hover:shadow-md ${todo.completed
-                            ? "bg-indigo-50 border-indigo-100"
-                            : "bg-white border-white/50"
-                        }`}
-                >
-                    <div className="flex-1 flex items-center gap-3 overflow-hidden">
-                        <input
-                            type="checkbox"
-                            id={`todo-${todo.id}`}
-                            checked={todo.completed}
-                            onChange={() => toggleTodoAsCompleted(todo.id)}
-                            className="w-5 h-5 accent-indigo-600 cursor-pointer rounded-md focus:ring-0 transition-all"
-                        />
-                        <label
-                            htmlFor={`todo-${todo.id}`}
-                            className={`text-base font-medium truncate cursor-pointer select-none transition-all ${todo.completed ? "text-indigo-300" : "text-gray-700"
-                                }`}
-                        >
-                            {todo.task}
-                        </label>
-                    </div>
-
-                    {todo.completed && (
-                        <button
-                            type="button"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                handleTodoDelete(todo.id);
-                            }}
-                            className="text-rose-500 hover:bg-rose-100 p-2 rounded-full transition-colors duration-200"
-                            aria-label="Delete Todo"
-                        >
-                            <RiDeleteBinLine className="text-xl" />
-                        </button>
-                    )}
-                </li>
+                    todo={todo}
+                    toggleTodoAsCompleted={toggleTodoAsCompleted}
+                    handleTodoDelete={handleTodoDelete}
+                />
             ))}
         </ul>
     );
