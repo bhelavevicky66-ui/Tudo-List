@@ -35,7 +35,7 @@ const Todos = () => {
             />
             <label
               htmlFor={`todo-${todo.id}`}
-              className={`text-base font-medium truncate cursor-pointer select-none transition-all ${todo.completed ? "line-through text-indigo-300" : "text-gray-700"
+              className={`text-base font-medium truncate cursor-pointer select-none transition-all ${todo.completed ? "text-indigo-300" : "text-gray-700"
                 }`}
             >
               {todo.task}
