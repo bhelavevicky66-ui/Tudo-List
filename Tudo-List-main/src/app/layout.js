@@ -14,12 +14,25 @@ export default function RootLayout({ children }) {
             <body
                 className={inter.className}
                 style={{
-                    margin: 0,
-                    padding: 0,
-                    boxSizing: "border-box",
                     fontFamily: inter.style.fontFamily,
                 }}
             >
+                <style dangerouslySetInnerHTML={{
+                    __html: `
+            * {
+              box-sizing: border-box;
+              margin: 0;
+              padding: 0;
+            }
+            body {
+              line-height: 1.5;
+              -webkit-font-smoothing: antialiased;
+            }
+            button, input, textarea, select {
+              font: inherit;
+            }
+          `
+                }} />
                 <TodoProvider>{children}</TodoProvider>
             </body>
         </html>
