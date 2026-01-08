@@ -1,8 +1,8 @@
 import AddToDo from "@/components/Add-Todo";
 import Navbar from "@/components/Navbar";
 import Todos from "@/components/todos";
-import { RiTodoLine } from "react-icons/ri";
 import { Suspense } from "react";
+import { RiTodoLine } from "react-icons/ri";
 
 const Todo = () => {
     const styles = {
@@ -34,14 +34,16 @@ const Todo = () => {
             alignItems: "center",
         },
         title: {
-            fontSize: "1.875rem", // text-3xl
+            fontSize: "2.5rem", // text-4xl
             fontWeight: "800", // font-extrabold
             letterSpacing: "-0.025em",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            gap: "0.75rem",
+            gap: "1rem",
             filter: "drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06))", // drop-shadow-md
+            marginBottom: "0.5rem",
+            fontFamily: "inherit",
         },
         subtitle: {
             marginTop: "0.5rem",
