@@ -2,6 +2,7 @@
 
 import { useTodo } from "@/store/todo";
 import { useSearchParams } from "next/navigation";
+import { RiDeleteBinLine } from "react-icons/ri";
 
 const Todos = () => {
   const { todos, toggleTodoAsCompleted, handleTodoDelete } = useTodo();
@@ -17,25 +18,25 @@ const Todos = () => {
   }
 
   return (
-    <ul className="w-full max-w-md space-y-4">
+    <ul className="w-full space-y-3">
       {filterTodos.map((todo) => (
         <li
           key={todo.id}
-          className="flex justify-between items-center bg-white p-3 shadow rounded"
+          className={`flex justify-between items-center p-4 rounded-2xl shadow-sm border transition-all duration-300 hover:shadow-md ${todo.completed ? "bg-indigo-50 border-indigo-100" : "bg-white border-white/50"
+            }`}
         >
-          <div className="flex items-center gap-2">
+          <div className="flex-1 flex items-center gap-3 overflow-hidden">
             <input
               type="checkbox"
               id={`todo-${todo.id}`}
               checked={todo.completed}
               onChange={() => toggleTodoAsCompleted(todo.id)}
-              className="accent-green-500"
+              className="w-5 h-5 accent-indigo-600 cursor-pointer rounded-md focus:ring-0 transition-all"
             />
             <label
               htmlFor={`todo-${todo.id}`}
-              className={`${
-                todo.completed ? "line-through text-red-500" : "text-gray-800"
-              }`}
+              className={`text-base font-medium truncate cursor-pointer select-none transition-all ${todo.completed ? "line-through text-indigo-300" : "text-gray-700"
+                }`}
             >
               {todo.task}
             </label>
@@ -46,11 +47,12 @@ const Todos = () => {
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
-                handleTodoDelete(todo.id); 
+                handleTodoDelete(todo.id);
               }}
-              className="bg-rose-400 hover:bg-rose-500 text-white px-3 py-1 rounded"
+              className="text-rose-500 hover:bg-rose-100 p-2 rounded-full transition-colors duration-200"
+              aria-label="Delete Todo"
             >
-              Delete
+              <RiDeleteBinLine className="text-xl" />
             </button>
           )}
         </li>

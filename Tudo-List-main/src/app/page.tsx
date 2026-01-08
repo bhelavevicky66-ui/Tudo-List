@@ -2,28 +2,36 @@ import AddToDo from "@/components/Add-Todo";
 import Navbar from "@/components/Navbar";
 import Todos from "@/components/todos";
 import { RiTodoLine } from "react-icons/ri";
-import { Suspense } from "react"; 
+import { Suspense } from "react";
 
-function Todo() {
+const Todo = () => {
   return (
-    <main className="flex items-center flex-col min-h-screen bg-gradient-to-b from-white to-gray-100 p-4">
-      <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-green-900 flex flex-col sm:flex-row items-center justify-center gap-2 mb-6 mt-10 text-center">
-        <RiTodoLine className="text-green-600 text-3xl sm:text-4xl" />
-        <span>TODO NEXT + TYPESCRIPT</span>
-        <RiTodoLine className="text-green-600 text-3xl sm:text-4xl" />
-      </h2>
+    <main className="flex items-center justify-center min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-4">
+      <div className="w-full max-w-lg bg-white/20 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-white/30 text-white">
+        <header className="mb-8 text-center">
+          <h2 className="text-3xl font-extrabold tracking-tight flex items-center justify-center gap-3 drop-shadow-md">
+            <RiTodoLine className="text-4xl" />
+            <span>Todo App</span>
+          </h2>
+          <p className="mt-2 text-indigo-100 text-sm font-medium opacity-90">
+            Manage your daily tasks with style
+          </p>
+        </header>
 
-      <Suspense fallback={<div>Loading filter...</div>}>
-        <Navbar /> 
-      </Suspense>
+        <Suspense fallback={<div className="text-center p-4">Loading...</div>}>
+          <Navbar />
+        </Suspense>
 
-      <AddToDo />
+        <AddToDo />
 
-      <Suspense fallback={<div>Loading todos...</div>}>
-        <Todos /> 
-      </Suspense>
+        <div className="mt-6">
+          <Suspense fallback={<div className="text-center p-4">Loading list...</div>}>
+            <Todos />
+          </Suspense>
+        </div>
+      </div>
     </main>
   );
-}
+};
 
 export default Todo;

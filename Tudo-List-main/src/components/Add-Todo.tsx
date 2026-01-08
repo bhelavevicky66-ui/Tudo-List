@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { useTodo } from "@/store/todo";
+import { RiAddLine } from "react-icons/ri";
 
 function AddToDo() {
   const [todo, setTodo] = useState("");
@@ -20,22 +21,20 @@ function AddToDo() {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex items-center gap-2 mb-6 w-full max-w-md"
-    >
+    <form onSubmit={handleSubmit} className="relative w-full mb-6">
       <input
         type="text"
-        placeholder="Write your todo"
+        placeholder="What needs to be accomplished?"
         value={todo}
         onChange={handleChange}
-        className="flex-grow border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400"
+        className="w-full p-4 pr-16 rounded-2xl border-none outline-none text-gray-800 placeholder-gray-400 shadow-xl focus:ring-4 focus:ring-indigo-200/50 bg-white/95 transition-all text-base"
       />
       <button
         type="submit"
-        className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+        aria-label="Add Todo"
+        className="absolute right-2 top-2 bottom-2 bg-indigo-600 hover:bg-indigo-700 text-white w-12 rounded-xl flex items-center justify-center shadow-md transition-all hover:scale-105 active:scale-95"
       >
-        ADD
+        <RiAddLine className="text-2xl font-bold" />
       </button>
     </form>
   );

@@ -7,14 +7,13 @@ function Navbar() {
   const todosFilter = searchParams.get("todos");
 
   const navClass = (filter: string | null) =>
-    `px-3 py-1 border-b-2 transition-all duration-200 ${
-      filter === todosFilter || (filter === null && todosFilter === null)
-        ? "border-green-500 text-green-700 font-bold"
-        : "border-transparent text-gray-500 hover:text-green-500"
+    `flex-1 py-2 text-center text-sm font-semibold rounded-lg transition-all duration-300 ${filter === todosFilter || (filter === null && todosFilter === null)
+      ? "bg-white text-indigo-600 shadow-md transform scale-105"
+      : "text-white/80 hover:bg-white/10 hover:text-white"
     }`;
 
   return (
-    <nav className="flex gap-6 mb-6">
+    <nav className="flex items-center gap-1 p-1 bg-black/20 rounded-xl mb-8 backdrop-blur-sm border border-white/10">
       <Link href="/" className={navClass(null)}>
         All
       </Link>

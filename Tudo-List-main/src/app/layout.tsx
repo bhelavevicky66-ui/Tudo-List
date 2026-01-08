@@ -1,20 +1,25 @@
-import { TodoProvider } from '@/store/todo';
-import React, { ReactNode } from 'react';
-import './globals.css'; 
-interface LayoutProps {
-  children: ReactNode;
-}
-function Layout({ children }: LayoutProps) {
-  return (
-    <html>
-      <body>
+import { TodoProvider } from "@/store/todo";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
 
-        <TodoProvider>
-          {children}
-        </TodoProvider>
+const inter = Inter({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: "Todo Next + TypeScript",
+  description: "A modern todo application built with Next.js and TypeScript",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body className={inter.className}>
+        <TodoProvider>{children}</TodoProvider>
       </body>
     </html>
   );
 }
-export default Layout;
-  
